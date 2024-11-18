@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre - Anotações</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style type="text/css">
+        body {
+            margin: 0;
+            font-family: 'Noto Sans', sans-serif;
+            background-color: #f0c417;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 70%;
+            background: #1a1a1a;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0px 10px 40px black;
+            margin: auto;
+            margin-top: 50px;
+        }
+
+        h2, h3 {
+            color: #f0c417;
+            text-align: center;
+        }
+
+        p {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .about-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .features-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .features-list li {
+            color: #fff;
+            background-color: #3e3e3e;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .nav-item {
+            background-color: #1a1a1a !important;
+        }
+
+        .nav-link {
+            color: #f0c417 !important;
+        }
+
+        .nav-link.active {
+            color: #f0c417 !important;
+            background-color: #1a1a1a !important;
+        }
+
+        .nav-link:hover {
+            color: #f0c417 !important;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .container {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Menu -->
+    <ul class="nav nav-pills nav-fill" style="margin-bottom: 20px;">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('lista_anotacoes') }}">Lista</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{{ url_for('sobre') }}">Sobre</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('logout') }}">Sair</a>
+        </li>
+    </ul>
+
+    <div class="container">
+        <h2>Sobre o Aplicativo de Anotações</h2>
+
+        <div class="about-section">
+            <p>Bem-vindo ao nosso aplicativo de anotações! Este sistema foi desenvolvido para ajudar você a organizar suas tarefas e manter todas as suas anotações em um só lugar.</p>
+        </div>
+
+        <h3>Recursos Principais</h3>
+        <ul class="features-list">
+            <li>Criação e edição de anotações personalizadas</li>
+            <li>Definição de datas para acompanhar prazos importantes</li>
+            <li>Interface intuitiva e fácil de navegar</li>
+            <li>Armazenamento seguro de informações</li>
+        </ul>
+
+        <p>Nosso objetivo é tornar a organização e a produtividade mais fáceis e acessíveis. Agradecemos por utilizar nosso aplicativo!</p>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

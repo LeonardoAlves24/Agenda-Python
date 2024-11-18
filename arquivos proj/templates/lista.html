@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anotações</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style type="text/css">
+        
+        body {
+            margin: 0;
+            font-family: 'Noto Sans', sans-serif;
+            background-color: #f0c417; /* Cor de fundo */
+            display: flex; /* Define o body como um flexbox */
+            flex-direction: column; /* Direção em coluna */
+            height: 100vh; /* Ocupa 100% da altura da viewport */
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 70%; /* Ajuste a largura conforme necessário */
+            background: #1a1a1a; /* Cor de fundo do contêiner */
+            border-radius: 20px; /* Bordas arredondadas */
+            padding: 20px; /* Espaçamento interno */
+            box-shadow: 0px 10px 40px black; /* Sombra do contêiner */
+            margin: auto; /* Centraliza horizontalmente */
+            margin-top: 100px; /* Espaçamento acima do contêiner */
+            flex-grow: 0; /* Impede que o contêiner cresça */
+        }
+
+
+
+        h2 {
+            color: #f0c417; /* Cor do texto do título */
+            text-align: center;
+            margin: 20px 0; /* Margem em cima e embaixo */
+        } 
+        
+        p {
+            text-align: center;
+            margin-bottom: 25px;
+            color: white; /* Cor do texto da descrição */
+        }
+
+        table {
+            width: 100%; /* Ocupa toda a largura */
+            border-collapse: collapse; /* Remove espaços entre as bordas das células */
+        }
+
+        th, td {
+            border: 1px solid #f0c417;
+            padding: 10px;
+            text-align: center; /* Centraliza o texto */
+            color: #fff; /* Cor do texto das células */
+        }
+
+        th {
+            background-color: #3e3e3e; /* Cor de fundo dos cabeçalhos */
+        }
+
+        .btn-editar, .btn-excluir, .btn-cadastrar {
+            padding: 8px 16px; /* Ajusta o preenchimento do botão */
+            color: white; /* Cor do texto */
+            border-radius: 5px; /* Borda arredondada */
+            cursor: pointer; /* Indica que é clicável */
+            text-decoration: none; /* Remove sublinhado do link */
+            margin: 5px; /* Adiciona um pequeno espaço ao redor do botão */
+        }
+
+        .btn-cadastrar {
+            background-color: #f0c417; /* Cor de fundo do botão Cadastrar */
+            color: #1a1a1a;
+            border: none; /* Remove borda padrão */
+        }
+
+        .btn-editar {
+            background-color: rgb(120, 202, 252); /* Cor de fundo do botão Editar */
+        }
+
+        .btn-excluir {
+            background-color: rgb(255, 0, 0); /* Cor vermelha para indicar exclusão */
+        }
+
+        .nav-item {
+            background-color: #1a1a1a !important; /* Cor de fundo da nav */
+        }
+
+        .nav-link {
+            color: #f0c417 !important; /* Cor do texto dos links */
+            text-transform: bold;
+        }
+
+        .nav-link.active {
+            background-color: #1a1a1a !important; /* Cor de fundo para o item ativo */
+            color: #f0c417 !important; /* Cor do texto para o item ativo */
+        }
+
+        .nav-link:hover {
+            color: #f0c417 !important; /* Cor do texto ao passar o mouse */
+        }
+
+        @media only screen and (max-width: 600px) {
+            .container {
+                width: 95%; /* Ajusta a largura em telas menores */
+            }
+
+            table {
+                font-size: 12px; /* Reduz o tamanho da fonte para tabelas pequenas */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu de navegação -->
+    <ul class="nav nav-pills nav-fill" style="margin-bottom: 20px;">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{{ url_for('lista_anotacoes') }}">Lista</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{{ url_for('sobre') }}">Sobre</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('logout') }}">Sair</a>
+        </li>
+    </ul>
+
+    <div class="container">
+        <h2>Seu bloco de anotações</h2>
+        <p>{{ descricao }}</p>
+        <table> 
+            <thead>
+                <tr>
+                    <th>Nome Anotação</th>
+                    <th>Descrição Anotação</th>
+                    <th>Data</th>
+                    <th>
+                        <a href="{{ url_for('cadastrar_tarefa') }}" class="btn-cadastrar"><i class="bi bi-pencil-fill"></i> Nova anotação</a>          
+                    </th>                    
+                </tr>
+            </thead>    
+    
+            <tbody>
+                {% for anotacoes in bloco_anotacoes %}
+                <tr>
+                    <td>{{ anotacoes.nome_anotacao }}</td>
+                    <td>{{ anotacoes.descricao_anotacao }}</td>
+                    <td>
+                        {% if anotacoes.data_anotacao %}
+                            {{ anotacoes.data_anotacao.strftime('%d/%m/%Y') }}
+                        {% else %}
+                            Sem data
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="/editar/{{ anotacoes.id }}" class="btn-editar"><i class="bi bi-pencil-square"></i></a>
+                        <form action="/excluir/{{ anotacoes.id }}" method="POST" style="display: inline-block;">
+                            <button type="submit" class="btn-excluir" > <i class="bi bi-trash"></i></button>
+                        </form>                         
+                    </td>                       
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

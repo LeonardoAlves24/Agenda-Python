@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <form action="/" method="POST">
+        <div class="main-login">
+            <div class="left-login">
+                <h1>Faça login para acessar as suas incríveis anotações!</h1>
+            </div>
+            <div class="right-login">
+                <div class="card-login">
+                    <h1>Login</h1>
+                    <div class="textfield">
+                        <label for="username">Email:</label><br>
+                        <input type="text" id="email" name="email" placeholder="Email" required><br><br>
+                    </div>
+                    <div class="textfield">
+                        <label for="password">Senha:</label><br>
+                        <input type="password" id="password" name="password" placeholder="Senha" required><br><br>
+                    </div>
+                    {% if error_message %}
+                    <p style="color: red;">{{ error_message }}</p>
+                    {% endif %}
+                    <button class="btn-login" type="submit" value="Login">Login</button>
+
+                    <a href="{{ url_for('cadastrarUsuario') }}">
+                        <p style="color: #f0c417;">Não tem login? se cadastre-se!</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+
+</body>
+</html>

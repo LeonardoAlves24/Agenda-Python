@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edição de Tarefa</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style type="text/css">
+        body {
+            margin: 0;
+            font-family: 'Noto Sans', sans-serif;
+            background-color: #f0c417; /* Cor de fundo */
+            display: flex; /* Define o body como um flexbox */
+            flex-direction: column; /* Direção em coluna */
+            height: 100vh; /* Ocupa 100% da altura da viewport */
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 70%; /* Ajuste a largura conforme necessário */
+            background: #1a1a1a; /* Cor de fundo do contêiner */
+            border-radius: 20px; /* Bordas arredondadas */
+            padding: 20px; /* Espaçamento interno */
+            box-shadow: 0px 10px 40px black; /* Sombra do contêiner */
+            margin: auto; /* Centraliza horizontalmente */
+            margin-top: 100px; /* Espaçamento acima do contêiner */
+        }
+
+        h2 {
+            color: #f0c417; /* Cor do texto do título */
+            text-align: center;
+            margin: 20px 0; /* Margem em cima e embaixo */
+        } 
+        
+        label {
+            color: #fff; /* Cor do texto do label */
+        }
+
+        input {
+            width: 100%; /* Largura total */
+            padding: 10px; /* Espaçamento interno */
+            border: 1px solid #f0c417; /* Borda */
+            border-radius: 5px; /* Borda arredondada */
+            margin-bottom: 15px; /* Espaço entre os campos */
+        }
+
+        button {
+            background-color: #f0c417; /* Cor de fundo do botão */
+            color: #1a1a1a; /* Cor do texto do botão */
+            padding: 10px 20px; /* Preenchimento do botão */
+            border: none; /* Remove borda padrão */
+            border-radius: 5px; /* Borda arredondada */
+            cursor: pointer; /* Indica que é clicável */
+        }
+
+        .nav-item {
+            background-color: #1a1a1a !important; /* Cor de fundo da nav */
+        }
+
+        .nav-link {
+            color: #f0c417 !important; /* Cor do texto dos links */
+        }
+
+        .nav-link.active {
+            background-color: #1a1a1a !important; /* Cor de fundo para o item ativo */
+            color: #f0c417 !important; /* Cor do texto para o item ativo */
+        }
+
+        .nav-link:hover {
+            color: #f0c417 !important; /* Cor do texto ao passar o mouse */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Menu de navegação -->
+    <ul class="nav nav-pills nav-fill" style="margin-bottom: 20px;">
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{{ url_for('lista_anotacoes') }}">Lista</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{{ url_for('sobre') }}">Sobre</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('logout') }}">Sair</a>
+        </li>
+    </ul>
+
+    <div class="container">
+        <h2>Editar Tarefa</h2>
+
+        <form action="/editar/{{ anotacoes.id }}" method="post">
+            <label>Nome da Tarefa</label>
+            <input type="text" name="txtNome" value="{{ anotacoes.nome_anotacao }}" required>
+
+            <label>Descrição da Tarefa</label>
+            <input type="text" name="txtDescricao" value="{{ anotacoes.descricao_anotacao }}" required>
+
+            <label>Data Limite</label>
+            <input type="text" name="txtData" 
+                value="{{ anotacoes.data_anotacao.strftime('%d/%m/%Y') if anotacoes.data_anotacao else '' }}" 
+                placeholder="EX: 25/04/2024" 
+                pattern="\d{2}/\d{2}/\d{4}" 
+                required 
+                oninput="formatDateInput(event)">
+
+            <div style="display: flex; justify-content: flex-end;">
+                <button type="submit">Atualizar Tarefa</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Função para formatar a data enquanto o usuário digita
+        function formatDateInput(event) {
+            const input = event.target;
+            let value = input.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+
+            // Adiciona as barras automaticamente
+            if (value.length >= 2) {
+                value = value.replace(/(\d{2})(\d)/, '$1/$2'); // Adiciona a primeira barra
+            }
+            if (value.length >= 5) {
+                value = value.replace(/(\d{2})\/(\d{2})(\d)/, '$1/$2/$3'); // Adiciona a segunda barra
+            }
+            input.value = value; // Atualiza o valor do campo
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
